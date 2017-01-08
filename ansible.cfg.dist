@@ -1,0 +1,42 @@
+# Copy this file and name it ansible.cfg
+# Then modify settings accordingly
+[defaults]
+
+# File locations
+inventory = vars/hosts
+
+# Misc settings
+# remote_user must be set to a user that can ssh to the given host, AND has sudo priveledges
+remote_user = ansible-admin
+gathering = smart
+retry_files_enabled = False
+error_on_undefined_vars = True
+sudo_flags=-HE
+host_key_checking = False
+
+
+# Uncomment this if SSh is not setup on client, or ansible can't ssh to client for some reason
+#ask_pass = True
+# You may need this as well in case of first time client setup
+#ask_sudo_pass = True
+
+# If using private key file (something.pem) to authenticate with machines
+# then set the following variable
+#private_key_file = ~/.ssh/example/path/to/something.pem
+
+# Set this value if using ansible roles outside of the default 'roles' directory.
+# Multiple paths can be set by separating them with a colon (:)
+# Have to set it relative to the code root directory as our roles are NOT
+# within the plays directory
+roles_path = roles
+
+# Privilege Escalation Settings
+[privilege_escalation]
+become = True
+become_method = sudo
+become_user = root
+become_ask_pass = False
+
+# SSH settings
+[ssh_connection]
+ssh_args = -o ControlMaster=auto -o ControlPersist=60s -o ForwardAgent=yes

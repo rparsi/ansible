@@ -1,0 +1,10 @@
+---
+- hosts: ansible-servers
+
+# Note: ansible uses path of playbook as current working directory
+  vars:
+    users_json_file: ../vars/users.json
+
+  roles:
+     - common
+     - users

@@ -1,0 +1,46 @@
+---
+- block:
+
+  - name: Installing Base packages
+    apt: pkg={{ item }} update_cache=yes state=present
+    with_items:
+      - curl
+      - tmux
+      - tree
+      - git
+      - unzip
+      - build-essential
+      - vim
+      - ssh
+
+  - name: Installing Security packages
+    apt: pkg={{ item }} update_cache=yes state=present
+    with_items:
+      - molly-guard
+      - acl
+
+  - name: Installing Monitoring packages
+    apt: pkg={{ item }} update_cache=yes state=present
+    with_items:
+      - sysstat
+      - htop
+      - iotop
+      - iftop
+      - atop 
+      - ncdu
+
+  - name: Installing Debugging packages
+    apt: pkg={{ item }} update_cache=yes state=present
+    with_items:
+      - strace
+      - tcpdump
+
+  - name: Disallow root SSH access
+    lineinfile: dest=/etc/ssh/sshd_config
+                regexp="^PermitRootLogin"
+                line="PermitRootLogin no"
+                state=present
+    notify: Restart ssh
+
+  tags:
+       - common

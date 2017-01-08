@@ -1,0 +1,23 @@
+{
+    'groupslist':
+    {
+        'dev':
+        {
+            'state':'present'
+        }
+    },
+    'users':
+    {
+        'rahi':
+        {
+            'username':'rahi',
+            'secondaryGroups':'admin,dev',
+            'password':'foobar',
+            'sudo':true,
+            'keyFilesDir':'/path/to/keys',
+            'privateKeyFile':'id_rsa',
+            'publicKeyFile':'id_rsa.pub',
+            'usersFilesDir':'/path/to/files/users'
+        }
+    }
+}

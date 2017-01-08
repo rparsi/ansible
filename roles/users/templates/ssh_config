@@ -1,0 +1,10 @@
+# Example of per host key mapping
+# Host something.bitbucket
+#     HostName blah.bitbucket.org
+#     User yourUserName
+#     IdentityFile /path/to/your/.ssh/private_key_file
+
+# Default settings
+Host *
+    ForwardAgent Yes
+    StrictHostKeyChecking no

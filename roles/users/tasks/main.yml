@@ -1,0 +1,93 @@
+---
+
+- include_vars: '{{users_json_file}}'
+
+- block:
+
+# - name: How to debug tasks -- ie Show var data
+#   debug: var={{item}} verbosity=4
+#   with_dict: '{{groupslist}}'
+
+  - name: Creating user groups
+    group: name={{ item.key }} state={{ item.value.state | default('present') }}
+    with_dict: '{{groupslist}}'
+    when: item.key is defined
+
+# item.key expected to be same as item.value.username
+  - name: Creating user
+    user:
+      name: "{{ item.value.username }}"
+      groups: "sudo,{{ item.value.secondaryGroups }}"
+      state: "{{ item.value.state | default('present') }}"
+      shell: /bin/bash
+    with_dict: '{{users}}'
+    when: item.key is defined and item.value.secondaryGroups is defined
+
+  - name: Set user password
+    shell: echo {{ item.key }}:{{ item.value.password }} | chpasswd
+    with_dict: '{{users}}'
+    when: item.key is defined and item.value.password is defined
+
+  - name: Create user bin directory
+    file: path=/home/{{ item.value.username }}/bin/ owner={{ item.key }} group={{ item.key }} mode=0700 state=directory
+    with_dict: '{{users}}'
+    when: item.key is defined
+
+  - name: Configure PATH for user bin directory
+    lineinfile: dest=/home/{{ item.key }}/.bashrc insertafter=EOF line='export PATH=$PATH:~/bin' state=present
+    with_dict: '{{users}}'
+    when: item.key is defined
+
+  - name: Copy helper scripts to user bin directory
+    copy: src={{ item.value.usersFilesDir }}/bin dest=/home/{{ item.key }} owner={{ item.key }} group={{ item.key }} mode=0700
+    with_dict: '{{users}}'
+    when: item.key is defined and item.value.usersFilesDir is defined
+
+  - name: Create user docs directory
+    file: path=/home/{{ item.value.username }}/docs/ owner={{ item.key }} group={{ item.key }} mode=0700 state=directory
+    with_dict: '{{users}}'
+    when: item.key is defined
+
+  - name: Copy docs to user docs directory
+    copy: src={{ item.value.usersFilesDir }}/docs dest=/home/{{ item.key }} owner={{ item.key }} group={{ item.key }} mode=0600
+    with_dict: '{{users}}'
+    when: item.key is defined and item.value.usersFilesDir is defined
+
+  - name: Set user custom sudoers file
+    template: src=sudoers dest=/etc/sudoers.d/{{ item.key }} owner=root group=root mode=440 validate='visudo -cf %s'
+    with_dict: '{{users}}'
+    when: item.key is defined and item.value.sudo is defined and item.value.sudo == True
+
+  - name: Set user .vimrc file
+    template: src=vimrc dest=/home/{{ item.key }}/.vimrc
+    with_dict: '{{users}}'
+    when: item.key is defined
+
+# SSH Key Setup
+  - name: Create user .ssh directory
+    file: path=/home/{{ item.value.username }}/.ssh/ owner={{ item.key }} group={{ item.key }} mode=0700 state=directory
+    with_dict: '{{users}}'
+    when: item.key is defined and item.value.keyFilesDir is defined
+
+  - name: Set user ssh config
+    template: src=ssh_config dest=/home/{{ item.key }}/.ssh/config owner={{ item.key }} group={{ item.key }} mode=0600
+    with_dict: '{{users}}'
+    when: item.key is defined
+
+  - name: Set user private key file
+    copy: src={{ item.value.keyFilesDir }}/{{ item.value.privateKeyFile }} dest=/home/{{ item.key }}/.ssh/{{ item.value.privateKeyFile }} owner={{ item.key }} group={{ item.key }} mode=0600
+    with_dict: '{{users}}'
+    when: item.key is defined and item.value.keyFilesDir is defined and item.value.privateKeyFile is defined
+
+  - name: Set user public key file
+    copy: src={{ item.value.keyFilesDir }}/{{ item.value.publicKeyFile }} dest=/home/{{ item.key }}/.ssh/{{ item.value.publicKeyFile }} owner={{ item.key }} group={{ item.key }} mode=0644
+    with_dict: '{{users}}'
+    when: item.key is defined and item.value.keyFilesDir is defined and item.value.publicKeyFile is defined
+
+  - name: Set authorized_keys file
+    copy: src={{ item.value.keyFilesDir }}/{{ item.value.publicKeyFile }} dest=/home/{{ item.key }}/.ssh/authorized_keys owner={{ item.key }} group={{ item.key }} mode=0600 force=no
+    with_dict: '{{users}}'
+    when: item.key is defined and item.value.keyFilesDir is defined and item.value.publicKeyFile is defined
+
+  tags:
+       - users

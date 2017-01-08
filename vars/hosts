@@ -1,0 +1,6 @@
+[local]
+127.0.0.1
+
+[ansible-servers]
+ansible-master
+ubuntu-dev-rahi

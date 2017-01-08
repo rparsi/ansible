@@ -1,0 +1,5 @@
+---
+- hosts: ansible-servers
+
+  roles:
+     - common
