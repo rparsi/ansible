@@ -88,6 +88,3 @@
     copy: src={{ item.value.keyFilesDir }}/{{ item.value.publicKeyFile }} dest=/home/{{ item.key }}/.ssh/authorized_keys owner={{ item.key }} group={{ item.key }} mode=0600 force=no
     with_dict: '{{users}}'
     when: item.key is defined and item.value.keyFilesDir is defined and item.value.publicKeyFile is defined
-
-  tags:
-       - users

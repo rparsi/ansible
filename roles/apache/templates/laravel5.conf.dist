@@ -1,0 +1,32 @@
+<VirtualHost *:80>
+	ServerName rahi.laravelstore.com
+	ServerAlias rahi.laravelstore.com
+
+	DocumentRoot /var/www/laravelstore/public
+	<Directory /var/www/laravelstore/public>
+		AllowOverride None
+		#apache 2.2 only
+                #Order Allow,Deny
+                #apache 2.4 and later
+                Require all granted
+		Allow from All
+
+		<IfModule mod_rewrite.c>
+			Options -MultiViews
+			RewriteEngine On
+			RewriteCond %{REQUEST_FILENAME} !-f
+			RewriteRule ^(.*)$ index.php [QSA,L]
+		</IfModule>
+	</Directory>
+
+	SetEnv APP_ENV dev
+	AddDefaultCharset UTF-8
+
+	#<Directory /var/www/project/web/bundles>
+	#	<IfModule mod_rewrite.c>
+	#		RewriteEngine Off
+	#	</IfModule>
+	#</Directory>
+	ErrorLog /var/log/apache2/laravelstore_error.log
+	CustomLog /var/log/apache2/laravelstore_access.log combined
+</VirtualHost>

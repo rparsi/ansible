@@ -1,0 +1,37 @@
+---
+
+- include_vars: '{{apache_yml_file}}'
+
+- block:
+
+  - name: Install Apache2 packages
+    apt: name=apache2 update_cache=yes state=latest
+
+  - name: Enable Apache service
+    service: name=apache2 enabled=yes
+
+  - name: disable apache modules
+    apache2_module: name={{ item }} state=absent
+    with_items: "{{apache2_modules_disabled}}"
+    when: apache2_modules_disabled is defined
+    ignore_errors: yes
+    notify:
+      - restart apache2
+
+  - name: enabled apache modules
+    apache2_module: name={{ item }} state=present
+    with_items: "{{apache2_modules_enabled}}"
+    when: apache2_modules_enabled is defined
+    ignore_errors: yes
+    notify:
+      - restart apache2
+
+  - name: Creates directory
+    file: path=/var/www/sites state=directory owner=www-data group=www-data mode=0775
+    run_once: true
+
+  - name: Create symfony template conf file
+    template: src=symfony3.conf.dist dest=/etc/apache2/sites-available
+
+  - name: Create laravel template conf file
+    template: src=laravel5.conf.dist dest=/etc/apache2/sites-available

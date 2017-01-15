@@ -4,7 +4,9 @@
 # Note: ansible uses path of playbook as current working directory
   vars:
     users_json_file: ../vars/users.json
+    apache_yml_file: ../vars/apache.yml
 
   roles:
-     - common
-     - users
+     - { role: common, tags: 'common' }
+     - { role: users, tags: 'users' }
+     - { role: apache, tags: ['apache', 'apache2'] }

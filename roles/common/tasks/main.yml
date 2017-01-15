@@ -41,6 +41,3 @@
                 line="PermitRootLogin no"
                 state=present
     notify: Restart ssh
-
-  tags:
-       - common

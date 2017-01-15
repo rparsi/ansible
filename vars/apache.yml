@@ -1,0 +1,5 @@
+---
+
+apache2_modules_enabled:
+    - headers
+    - rewrite
