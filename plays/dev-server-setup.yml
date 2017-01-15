@@ -5,8 +5,10 @@
   vars:
     users_json_file: ../vars/users.json
     apache_yml_file: ../vars/apache.yml
+    mysql_yml_file: ../vars/mysql.yml
 
   roles:
      - { role: common, tags: 'common' }
      - { role: users, tags: 'users' }
      - { role: apache, tags: ['apache', 'apache2'] }
+     - { role: mysql, tags: ['mysql', 'mysql5.7'] }

@@ -1,0 +1,59 @@
+---
+
+- include_vars: '{{mysql_yml_file}}'
+
+- block:
+
+  - name: Set MySQL root password before installing
+    debconf: name='mysql-server' question='mysql-server/root_password' value='{{ mysql_root_pass | quote }}' vtype='password'
+
+  - name: Set the confirm MySQL root password before installing
+    debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{ mysql_root_pass | quote }}' vtype='password'
+
+  - name: Install MySQL packages
+    apt:  name={{item}} state=installed update_cache=yes
+    with_items: "{{ mysql_packages }}"
+    ignore_errors: yes
+    when: mysql_packages is defined
+
+  - name: Remove MySQL packages
+    apt: name={{ item }} state=absent purge=yes
+    with_items: "{{ mysql_packages_old }}"
+    ignore_errors: yes
+    when: mysql_packages_old is defined
+
+  - name: Update MySQL root password for all root accounts 
+    mysql_user:
+      login_user: root
+      login_password: "{{ mysql_root_pass }}"
+      check_implicit_admin: yes
+      name: root
+      host: "{{ item }}"
+      password: "{{ mysql_root_pass }}"
+      state: present
+    with_items:
+      - ::1
+      - localhost
+      - 127.0.0.1
+    when: mysql_packages is defined
+
+  - name: Ensure Anonymous user(s) are not in the database
+    mysql_user:
+      login_user: root
+      login_password: "{{ mysql_root_pass }}"
+      name: ''
+      host: "{{ item }}"
+      state: absent
+    with_items:
+      - localhost
+    when: mysql_packages is defined
+
+  - name: Remove the test database
+    mysql_db:
+      login_user: root
+      login_password: "{{ mysql_root_pass }}"
+      name: test
+      state: absent
+    when: mysql_packages is defined
+    notify:
+      - Restart MySQL
