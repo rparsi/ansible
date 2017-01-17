@@ -14,3 +14,4 @@
      - { role: apache, tags: ['apache', 'apache2'] }
      - { role: mysql, tags: ['mysql', 'mysql5.7'] }
      - { role: php7, tags: ['php', 'php7'] }
+     - { role: nodejs, tags: ['nodejs', 'npm'] }
