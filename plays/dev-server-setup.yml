@@ -6,9 +6,11 @@
     users_json_file: ../vars/users.json
     apache_yml_file: ../vars/apache.yml
     mysql_yml_file: ../vars/mysql.yml
+    php7_yml_file: ../vars/php7.yml
 
   roles:
      - { role: common, tags: 'common' }
      - { role: users, tags: 'users' }
      - { role: apache, tags: ['apache', 'apache2'] }
      - { role: mysql, tags: ['mysql', 'mysql5.7'] }
+     - { role: php7, tags: ['php', 'php7'] }

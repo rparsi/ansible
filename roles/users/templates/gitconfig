@@ -1,0 +1,14 @@
+[user]
+        email = rahi.parsi@gmail.com
+        name = Rahi Parsi
+[core]
+        autocrlf = false
+[fetch]
+    prune = true
+[pull]
+    prune = true
+[gui]
+        recentrepo = E:/work/strainfinder
+[alias]
+    update = "!git remote update --prune"
+    cleanup = "!git reset --hard;git clean -fd"

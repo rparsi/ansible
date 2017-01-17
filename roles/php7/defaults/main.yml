@@ -1,0 +1,60 @@
+---
+
+php_version: '7.1'
+
+php7_packages:
+    - 'php7.1'
+    - 'php7.1-bcmath'
+    - 'php7.1-cli'
+    - 'php7.1-common'
+    - 'php7.1-curl'
+    - 'php7.1-gd'
+    - 'php7.1-intl'
+    - 'php7.1-json'
+    - 'php7.1-mbstring'
+    - 'php7.1-mcrypt'
+    - 'php7.1-mysql'
+    - 'php7.1-opcache'
+    - 'php7.1-readline'
+    - 'php7.1-xml'
+    - 'php7.1-zip'
+    - 'php-xdebug'
+    - 'composer'
+
+apache_ini:
+    - { regexp: "^short_open_tag", line: "short_open_tag = Off" }
+    - { regexp: "^zend.enable_gc", line: "zend.enable_gc = On" }
+    - { regexp: "^expose_php", line: "expose_php = Off" }
+    - { regexp: "^error_reporting", line: "error_reporting = E_ALL" }
+    - { regexp: "^log_errors", line: "log_errors = On" }
+    - { regexp: "^post_max_size", line: "post_max_size = 30M" }
+    - { regexp: "^file_uploads", line: "file_uploads = On" }
+    - { regexp: "^upload_max_filesize", line: "upload_max_filesize = 30M" }
+    - { regexp: "^max_file_uploads", line: "max_file_uploads = 10" }
+    - { regexp: "^allow_url_fopen", line: "allow_url_fopen = On" }
+    - { regexp: "^default_socket_timeout", line: "default_socket_timeout = 60" }
+    - { regexp: "^date.timezone", line: "date.timezone = America/Toronto" }
+
+cli_ini:
+    - { regexp: "^short_open_tag", line: "short_open_tag = Off" }
+    - { regexp: "^zend.enable_gc", line: "zend.enable_gc = On" }
+    - { regexp: "^expose_php", line: "expose_php = Off" }
+    - { regexp: "^error_reporting", line: "error_reporting = E_ALL" }
+    - { regexp: "^log_errors", line: "log_errors = On" }
+    - { regexp: "^post_max_size", line: "post_max_size = 30M" }
+    - { regexp: "^file_uploads", line: "file_uploads = On" }
+    - { regexp: "^upload_max_filesize", line: "upload_max_filesize = 30M" }
+    - { regexp: "^max_file_uploads", line: "max_file_uploads = 10" }
+    - { regexp: "^allow_url_fopen", line: "allow_url_fopen = On" }
+    - { regexp: "^default_socket_timeout", line: "default_socket_timeout = 60" }
+    - { regexp: "^date.timezone", line: "date.timezone = America/Toronto" }
+    - { regexp: "^html_errors", line: "html_errors = Off" }
+
+
+xdebug_apache_enabled: True
+
+xdebug_cli_enabled: False
+
+remote_port: 9010
+
+idekey: 'PHPSTORM'

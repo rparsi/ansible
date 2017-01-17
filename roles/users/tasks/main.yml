@@ -59,7 +59,12 @@
     when: item.key is defined and item.value.sudo is defined and item.value.sudo == True
 
   - name: Set user .vimrc file
-    template: src=vimrc dest=/home/{{ item.key }}/.vimrc
+    template: src=vimrc dest=/home/{{ item.key }}/.vimrc owner={{ item.key }} group={{ item.key }} mode='u+rw,g+r,o+r'
+    with_dict: '{{users}}'
+    when: item.key is defined
+
+  - name: Set user .gitconfig file
+    template: src=gitconfig dest=/home/{{ item.key }}/.gitconfig owner={{ item.key }} group={{ item.key }} mode='u+rw,g+r,o+r'
     with_dict: '{{users}}'
     when: item.key is defined
 

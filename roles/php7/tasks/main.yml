@@ -1,0 +1,59 @@
+---
+
+- include_vars: '{{php7_yml_file}}'
+
+- block:
+
+  - name: Adding Ondrej PPA
+    apt_repository: repo=ppa:ondrej/php state=present
+
+  - name: Installing PHP7 packages
+    apt: pkg={{ item }} update_cache=yes state=present
+    with_items: "{{php7_packages}}"
+    when: php7_packages is defined
+
+# Update PHP ini files
+  - name: Updating php ini for cli
+    lineinfile: dest=/etc/php/{{ php_version }}/cli/php.ini
+                regexp="{{ item.regexp }}"
+                line="{{ item.line }}"
+                state="{{ item.state | default('present') }}"
+    with_items: '{{cli_ini}}'
+    when: cli_ini is defined
+
+  - name: Updating php ini for apache
+    lineinfile: dest=/etc/php/{{ php_version }}/apache2/php.ini
+                regexp="{{ item.regexp }}"
+                line="{{ item.line }}"
+                state="{{ item.state | default('present') }}"
+    with_items: '{{apache_ini}}'
+    when: apache_ini is defined
+    notify: restart apache2
+
+# XDebug: apache configuration
+  - name: Disabling xdebug for apache
+    template: src=xdebug.ini.disabled.j2 dest='/etc/php/{{ php_version }}/mods-available/xdebug-apache.ini' owner=root group=root mode='u=rw,g=r,o=r'
+    when: xdebug_apache_enabled is defined and xdebug_apache_enabled == False
+    notify: restart apache2
+
+  - name: Enabling xdebug for apache
+    template: src=xdebug.ini.enabled.j2 dest='/etc/php/{{ php_version }}/mods-available/xdebug-apache.ini' owner=root group=root mode='u=rw,g=r,o=r'
+    when: xdebug_apache_enabled is defined and xdebug_apache_enabled == True
+    notify: restart apache2
+
+  - name: Ensure apache xdebug symlink points to our custom ini
+    file: src='/etc/php/{{ php_version }}/mods-available/xdebug-apache.ini' dest='/etc/php/{{ php_version }}/apache2/conf.d/20-xdebug.ini' state=link
+
+# XDebug: cli configuration
+  - name: Disabling xdebug for cli
+    template: src=xdebug.ini.disabled.j2 dest='/etc/php/{{ php_version }}/mods-available/xdebug-cli.ini' owner=root group=root mode='u=rw,g=r,o=r'
+    when: xdebug_cli_enabled is defined and xdebug_cli_enabled == False
+    notify: restart apache2
+
+  - name: Enabling xdebug for cli
+    template: src=xdebug.ini.enabled.j2 dest='/etc/php/{{ php_version }}/mods-available/xdebug-cli.ini' owner=root group=root mode='u=rw,g=r,o=r'
+    when: xdebug_cli_enabled is defined and xdebug_cli_enabled == True
+    notify: restart apache2
+
+  - name: Ensure cli xdebug symlink points to our custom ini
+    file: src='/etc/php/{{ php_version }}/mods-available/xdebug-cli.ini' dest='/etc/php/{{ php_version }}/cli/conf.d/20-xdebug.ini' state=link
