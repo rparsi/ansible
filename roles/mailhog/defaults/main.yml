@@ -1,0 +1,4 @@
+---
+
+mailhog_version: 'v0.2.1'
+mailhog_binary_url: https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
