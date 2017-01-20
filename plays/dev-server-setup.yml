@@ -17,3 +17,4 @@
      - { role: nodejs, tags: ['nodejs', 'npm'] }
      - { role: mailhog, tags: ['mailhog', 'local-smtp'] }
      - { role: java8, tags: ['java8'] }
+     - { role: supervisor, tags: ['supervisor', 'supervisord'] }
