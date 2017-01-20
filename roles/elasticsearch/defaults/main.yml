@@ -1,0 +1,5 @@
+---
+
+elasticsearch_version: '5.x'
+
+elasticsearch_gpg_key: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'

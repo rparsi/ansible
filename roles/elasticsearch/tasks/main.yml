@@ -1,0 +1,24 @@
+---
+
+- block:
+
+# installation steps taken from https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html
+
+  - name: Adding ElasticSearch GPG key
+    apt_key: url={{elasticsearch_gpg_key}} state=present
+
+  - name: Installing dependencies
+    apt: pkg='apt-transport-https' state=present update_cache=yes
+
+  - name: Ensuring ElasticSearch repository sources list directory exists
+    file: path=/etc/apt/sources.list.d state=directory owner=root group=root mode='u=rwx,g=rx,o=rx'
+
+  - name: Installing ElasticSearch repository sources list
+    template: src=elastic-{{elasticsearch_version}}.list.j2 dest=/etc/apt/sources.list.d/elastic-{{elasticsearch_version}}.list owner=root group=root mode='u=rw,g=r,o=r'
+
+  - name: Updating apt cache
+    apt: update_cache=yes
+
+  - name: Installing and starting ElasticSearch
+    apt: pkg=elasticsearch update_cache=yes state=present
+    notify: restart elasticsearch
