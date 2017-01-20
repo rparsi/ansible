@@ -1,0 +1,19 @@
+---
+
+- block:
+
+  - name: Adding java ppa (deb)
+    apt_repository: repo='ppa:webupd8team/java' state=present
+
+  - name: Accept Java 8 License
+    debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+
+  - name: Updating apt cache
+    apt: update_cache=yes
+
+  - name: Install Oracle Java 8
+    apt: name={{item}} state=latest
+    with_items:
+      - oracle-java8-installer
+      - ca-certificates
+      - oracle-java8-set-default

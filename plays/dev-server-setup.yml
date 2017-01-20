@@ -16,3 +16,4 @@
      - { role: php7, tags: ['php', 'php7'] }
      - { role: nodejs, tags: ['nodejs', 'npm'] }
      - { role: mailhog, tags: ['mailhog', 'local-smtp'] }
+     - { role: java8, tags: ['java8'] }
