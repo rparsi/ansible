@@ -1,15 +1,14 @@
 [user]
-        email = rahi.parsi@gmail.com
-        name = Rahi Parsi
+    email = rahi.parsi@gmail.com
+    name = Rahi Parsi
 [core]
-        autocrlf = false
+    autocrlf = false
+    editor = vim
 [fetch]
     prune = true
 [pull]
     prune = true
     rebase = true
-[gui]
-        recentrepo = E:/work/strainfinder
 [alias]
     update = "!git remote update --prune"
     cleanup = "!git reset --hard;git clean -fd"
