@@ -3,4 +3,4 @@
 
 [ansible-servers]
 ansible-master
-ubuntu-dev-rahi
+dev-rahi

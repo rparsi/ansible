@@ -9,10 +9,10 @@
       - tree
       - git
       - unzip
+      - zip
       - build-essential
       - vim
       - ssh
-      - gtar
 
   - name: Installing Security packages
     apt: pkg={{ item }} update_cache=yes state=present

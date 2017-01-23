@@ -18,6 +18,8 @@ However you can run any of the playbooks locally.
 # Prerequisites
 1. You have ssh keys already generated for the 'ansible-admin' user
 plus any other users you want to add (to any server).
+Use following command to generate ssh keys
+$ ssh-keygen -t rsa -b 4096
 2. You run the ansible-setup.sh script as a user that has sudo rights.
 
 

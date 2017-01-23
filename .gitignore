@@ -2,4 +2,3 @@ ansible.cfg
 *.json
 vars/users.json
 ansible-admin.settings
-keys/*
