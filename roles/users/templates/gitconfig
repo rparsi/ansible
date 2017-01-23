@@ -7,6 +7,7 @@
     prune = true
 [pull]
     prune = true
+    rebase = true
 [gui]
         recentrepo = E:/work/strainfinder
 [alias]
