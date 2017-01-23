@@ -1,0 +1,6 @@
+#!/bin/bash
+
+perms
+php bin/console cache:clear --env=prod --no-debug
+php bin/console cache:warmup --env=prod --no-debug
+perms

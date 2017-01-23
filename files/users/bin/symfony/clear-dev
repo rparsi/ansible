@@ -1,0 +1,6 @@
+#!/bin/bash
+
+perms
+php bin/console cache:clear --env=dev --no-debug
+php bin/console cache:warmup --env=dev --no-debug
+perms

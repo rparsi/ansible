@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo chown www-data:`whoami` var/ web/ -R
+sudo chmod ug+rw var/ web/ -R

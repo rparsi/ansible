@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo chown `whoami`:www-data -R storage bootstrap/cache
+sudo chmod ug+rw -R storage bootstrap/cache

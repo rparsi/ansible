@@ -34,7 +34,7 @@
     when: item.key is defined
 
   - name: Configure PATH for user bin directory
-    lineinfile: dest=/home/{{ item.key }}/.bashrc insertafter=EOF line='export PATH=$PATH:~/bin' state=present
+    lineinfile: dest=/home/{{ item.key }}/.bashrc insertafter=EOF line='export PATH=$PATH:~/bin:~/bin/symfony:~/bin/js:~/bin/laravel' state=present
     with_dict: '{{users}}'
     when: item.key is defined
 

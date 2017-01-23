@@ -1,0 +1,5 @@
+#!/bin/bash
+
+perms
+php bin/console doctrine:cache:clear-metadata
+perms
