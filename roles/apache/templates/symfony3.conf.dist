@@ -3,8 +3,8 @@
 	ServerName rahi.lottery.com
 	ServerAlias rahi.lottery.com
 
-	DocumentRoot /var/www/lottery/web
-	<Directory /var/www/lotter/web>
+	DocumentRoot /var/www/sites/lottery/web
+	<Directory /var/www/sites/lottery/web>
 		AllowOverride None
 		#apache 2.2 only
                 #Order Allow,Deny
@@ -23,7 +23,7 @@
 	#SetEnv APPLICATION_ENV development 
 	AddDefaultCharset UTF-8
 
-	<Directory /var/www/project/web/bundles>
+	<Directory /var/www/sites/lottery/web/bundles>
 		<IfModule mod_rewrite.c>
 			RewriteEngine Off
 		</IfModule>

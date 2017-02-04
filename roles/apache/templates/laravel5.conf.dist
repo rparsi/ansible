@@ -2,8 +2,8 @@
 	ServerName rahi.laravelstore.com
 	ServerAlias rahi.laravelstore.com
 
-	DocumentRoot /var/www/laravelstore/public
-	<Directory /var/www/laravelstore/public>
+	DocumentRoot /var/www/sites/laravelstore/public
+	<Directory /var/www/sites/laravelstore/public>
 		AllowOverride None
 		#apache 2.2 only
                 #Order Allow,Deny
@@ -22,7 +22,7 @@
 	SetEnv APP_ENV dev
 	AddDefaultCharset UTF-8
 
-	#<Directory /var/www/project/web/bundles>
+	#<Directory /var/www/sites/laravelstore/web/bundles>
 	#	<IfModule mod_rewrite.c>
 	#		RewriteEngine Off
 	#	</IfModule>
