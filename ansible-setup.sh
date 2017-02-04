@@ -27,7 +27,7 @@ fi
 userCheckResult=`getent passwd ansible-admin`
 if [ -z "${userCheckResult}" ]; then
     echo "Creating ansible-admin user"
-    sudo useradd ansible-admin -G admin -m
+    sudo useradd ansible-admin -G admin -m -s /bin/bash
 fi
 
 # Setting ansible-admin password
