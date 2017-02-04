@@ -1,0 +1,7 @@
+[program:mailhog]
+command=/usr/local/bin/mailhog
+process_name=%(program_name)s
+startsecs=0
+user=root
+stdout_logfile=/var/log/mailhog/stdout.log
+stderr_logfile=/var/log/mailhog/stderr.log

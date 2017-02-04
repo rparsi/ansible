@@ -19,3 +19,4 @@
      - { role: java8, tags: ['java', 'java8'] }
      - { role: supervisor, tags: ['supervisor', 'supervisord'] }
      - { role: elasticsearch, tags: ['elasticsearch', 'elasticsearch-5.x'] }
+     - { role: supervisor-mailhog, tags: 'mailhog.setup' }
