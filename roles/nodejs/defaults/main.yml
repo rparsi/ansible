@@ -1,4 +1,6 @@
 ---
 
 nodejs_version: 'v6.9.4'
-nodejs_url: 'https://nodejs.org/dist/v6.9.4/node-v6.9.4-linux-x64.tar.xz'
+nodejs_repo: 'node_6.x'
+nodejs_binaries_url: 'https://nodejs.org/dist/v6.9.4/node-v6.9.4-linux-x64.tar.xz'
+nodejs_gpg_key: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'

@@ -2,33 +2,25 @@
 
 - block:
 
-  - name: Downloading binaries
-    get_url:
-        url: 'https://nodejs.org/dist/{{nodejs_version}}/node-{{nodejs_version}}-linux-x64.tar.xz'
-        dest: /root
-        mode: 'ug+rw'
+# following sources were used to derive the minimal ansible tasks:
+# https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
+# https://deb.nodesource.com/setup_6.x
+# http://askubuntu.com/questions/786272/why-does-installing-node-6-x-on-ubuntu-16-04-actually-install-node-4-2-6
 
-  - name: Extracting tar file
-    unarchive:
-        src: /root/node-{{nodejs_version}}-linux-x64.tar.xz
-        dest: /usr/local/bin
-        remote_src: True
-    #shell: 'tar --strip-components 1 -xf /root/node-{{nodejs_version}}-linux-x64.tar.xz -C /usr/local'
+  - name: Adding NodeJS GPG key
+    apt_key: url={{nodejs_gpg_key}} state=present
 
-  - name: Installing nodejs
-    file:
-        src: '/usr/local/bin/node-{{nodejs_version}}-linux-x64/bin/node'
-        dest: /usr/local/bin/node
-        state: link
-        owner: root
-        group: root
-        mode: 'ug+rwx,a+x'
+  - name: Ensuring ppa repository sources list directory exists
+    file: path=/etc/apt/sources.list.d state=directory owner=root group=root mode='u=rwx,g=rx,o=rx'
 
-  - name: Installing npm
-    file:
-        src: '/usr/local/bin/node-{{nodejs_version}}-linux-x64/bin/npm'
-        dest: /usr/local/bin/npm
-        state: link
-        owner: root
-        group: root
-        mode: 'ug+rwx,a+x'
+  - name: Installing NodeJS repository sources list
+    template: src=nodesource.list.j2 dest=/etc/apt/sources.list.d/nodesource.list owner=root group=root mode='u=rw,g=r,o=r'
+
+  - name: Updating apt cache
+    apt: update_cache=yes
+
+  - name: Installing NodeJS
+    apt: pkg=nodejs update_cache=yes state=present
+
+  - name: Installing NodeJS dependencies
+    apt: pkg='build-essential' state=present update_cache=yes
